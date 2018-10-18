@@ -1,0 +1,8 @@
+.ipynb_checkpoints
+__pycache__/
+models/all_models_2
+models/all_models
+p450_inhibitor/models
+p450_inhibitor/data
+bin/
+
