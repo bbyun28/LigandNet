@@ -67,4 +67,5 @@ def fetch_gene_driver(_file):
 if __name__ == "__main__":
     #fetch_gene_driver("../enamine_advanced_counts.csv")
     #fetch_gene_driver("../enamine_hts_counts.csv")
-    fetch_gene_driver("/data2/mhassan/LigandNet/models/all_models_types.csv")
+    #fetch_gene_driver("/data2/mhassan/LigandNet/models/all_models_types.csv")
+    fetch_gene_driver("../chembridge/counts.csv")
