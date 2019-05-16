@@ -19,14 +19,15 @@ current_dir = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(current_dir, "../ddt"))
 from utility import FeatureGenerator
 
-MODELS_DIR = os.path.join(current_dir, "models")
+MODELS_DIR = os.path.join(current_dir, "uniprot_models")
 PY_VERSION = '27' if sys.version_info[0] < 3 else '35'
 
 
 def get_models():    
-    model_names = open(os.path.join(current_dir, 'py' + PY_VERSION + '_models.txt'), 'r').readlines()[0].split(',')
+    model_names = open(os.path.join(current_dir, 'py' + PY_VERSION + '_uniprot_models.txt'), 'r').readlines()[0].split(',')
     for model in model_names:
-        yield model, joblib.load(os.path.join(MODELS_DIR, model), mmap_mode='r+')
+        with open(os.path.join(MODELS_DIR, model), 'rb') as f:
+            yield model, joblib.load(f) #, mmap_mode='r+')
 
 def get_prediction(features, confidence=0.9):
     actives = []
@@ -38,7 +39,7 @@ def get_prediction(features, confidence=0.9):
         else:
             pred = model.predict_proba(features)
             model_conf = pred[0][1]
-            if model_conf > confidence: actives.append((model_name, str(model_conf)))
+            if model_conf > confidence: actives.append((model_name, str(round(model_conf, 2))))
     return actives
     
 #TODO: extend functionality for sdf files. there might be multiple compounds in sdfs. provide compound specific results
@@ -69,6 +70,7 @@ if __name__=="__main__":
     elif args.sdf:
         ft.load_sdf(parse_dict['sdf'])
     
+    #TODO: Retrieve compound ids as well and put those into the output. Check if the input is smiles or sdfs
     _, features = ft.extract_tpatf()
     features = np.array(features).reshape((-1, 2692))
     results = get_prediction(features)
