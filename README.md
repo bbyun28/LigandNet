@@ -34,3 +34,6 @@ To get the decoys used for training the LigandNet models, run
 1. bash get_decoys.sh
 2. tar xvf decoys.tar.gz
 ```
+
+# Web server
+An web interface for ligand activity prediction using the LigandNet models is available at `https://drugdiscovery.utep.edu/ligandnet`
